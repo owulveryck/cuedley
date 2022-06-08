@@ -26,3 +26,7 @@ so far, the only command is `cue genCheatSheet`
 | understanding | Poorly understood / unpredictable | Increasing understanding / development of measures | Increasing education / constant refinement of needs / measures | Believed to be well defined / stable / measurable |	
 | userPerception | Different / confusing / exciting / surprising | Leading edge / emerging | Common / disappointed if not used or available | Standard / expected |	
 
+## Resources
+
+* [The Wardley Graph - by Tristan Slominski](https://nomotherships.substack.com/p/the-wardley-graph?s=r)
+* [Wardley Notes](https://github.com/owulveryck/wardleynotes)
