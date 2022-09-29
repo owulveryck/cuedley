@@ -1,12 +1,15 @@
 package cuedley
 
-let _mapKind = 0
-let _anchorKind = 1
-let _componentKind = 2
+let mapKind = 0
+let anchorKind = 1
+let componentKind = 2
+let fulfillerKind = 4
+
+_debug: 4
 
 #Map: {
 	title?: string
-	_kind:  _mapKind
+	kind:   mapKind
 	anchors: [...#anchor]
 }
 
@@ -37,29 +40,30 @@ stage4:                       70
 #anchor: {
 	name: string
 	expresses: [...#need]
-	visibility:       0
-	StageOfEvolution: _stageOfEvolutionConstraints
-	kind:             _anchorKind
+	visibility:       string | {int & <100 & >=0} | *0
+	StageOfEvolution: string
+	kind:             anchorKind
 }
 
 #need: {
-	name: string
-	visibility: {for dep in fulfilledBy {>=dep.visibility & int & <=0}}
-	StageOfEvolution: _stageOfEvolutionConstraints
+	name:             string
+	visibility:       string | {int & <100 & >=0} | *0
+	StageOfEvolution: string
 	fulfilledBy: [...#fulfiller]
 }
 
 #fulfiller: {
-	name: string
-	visibility: {for dep in dependsOn {>=dep.visibility & int & <=0}}
-	StageOfEvolution: _stageOfEvolutionConstraints
+	name:             string
+	visibility:       string | {int & <100 & >=0} | *0
+	StageOfEvolution: string
+	kind:             fulfillerKind
 	dependsOn: [...#component]
 }
 
 #component: {
-	name: string
-	visibility: {for dep in dependsOn {>=dep.visibility & int & <=0}}
-	StageOfEvolution: _stageOfEvolutionConstraints
+	name:             string
+	visibility:       string | {int & <100 & >=0}
+	StageOfEvolution: string
+	kind:             componentKind
 	dependsOn: [...#component]
-	_kind: _componentKind
 }

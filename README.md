@@ -1,6 +1,11 @@
 # cuedley
 One more experiment with CUE to eventually express Wardley Map as Data
 
+## WIP 
+
+you can test the example by `cd example`
+and run `go run .`
+
 
 ## Commands
 

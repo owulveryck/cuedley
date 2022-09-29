@@ -3,59 +3,75 @@ package main
 import "github.com/owulveryck/cuedley"
 
 myMap: cuedley.#Map & {
+	title: "title"
 	anchors: [public, business]
 }
 
 public: cuedley.#anchor & {
 	name: "Public"
 	expresses: [thirst]
+	StageOfEvolution: "|..........|..........|..........|...x......|"
 }
 
 business: cuedley.#anchor & {
 	name: "Business"
 	expresses: [thirst]
+	StageOfEvolution: "|..........|..........|......x..|..........|"
 }
 
 thirst: cuedley.#need & {
-	name:       "thirst"
-	visibility: 0
+	name: "thirst"
 	fulfilledBy: [cupOfTea]
-	StageOfEvolution: 55
+	StageOfEvolution: "|..........|..........|..........|.....x....|"
+}
+cupOfTea: cuedley.#fulfiller & {
+	name:             "Cup Of Tea"
+	visibility:       10
+	StageOfEvolution: "|..........|..........|......x...|........|"
+	dependsOn: [cup, tea, hotWater]
+}
+cup: cuedley.#component & {
+	visibility:       cupOfTea.visibility - 10
+	StageOfEvolution: "|..........|..........|..........|..x.......|"
+	name:             "Cup"
 }
 
-cupOfTea: cuedley.#fulfiller & {
-	name:       "Cup Of Tea"
-	visibility: business.visibility - 5
-	dependsOn: [tea, cup, hotWater]
+myPipeline: cuedley.#pipeline & {
+	entryPoint: cupOfTea
+	elements: [cup, tea, hotWater]
+}
+
+group: cuedley.#group & {
+	legend: "build in-house"
+	elements: [cupOfTea, tea]
 }
 
 tea: cuedley.#component & {
-	visibility: business.visibility - 10
-	name:       "Tea"
+	visibility:       cup.visibility + 10
+	StageOfEvolution: "|..........|..........|..........|...x......|"
+	name:             "Tea"
 }
-cup: cuedley.#component & {
-	visibility: business.visibility - 15
-	name:       "Cup"
-}
-
 hotWater: cuedley.#component & {
-	name:       "Hot Water"
-	visibility: business.visibility - 20
+	visibility:       cup.visibility + 20
+	StageOfEvolution: "|..........|..........|..........|..x.......|"
+	name:             "Hot Water"
 	dependsOn: [water, kettle]
 }
 
+water: cuedley.#component & {
+	visibility:       hotWater.visibility + 10
+	StageOfEvolution: "|..........|..........|..........|.....x....|"
+	name:             "Water"
+}
 kettle: cuedley.#component & {
-	name:       "Kettle"
-	visibility: business.visibility - 30
+	visibility:       hotWater.visibility + 15
+	StageOfEvolution: "|..........|......x...|..........|..........|"
+	name:             "Kettle"
 	dependsOn: [power]
 }
 
 power: cuedley.#component & {
-	visibility: business.visibility - 40
-	name:       "Power"
-}
-
-water: cuedley.#component & {
-	visibility: business.visibility - 35
-	name:       "Water"
+	visibility:       kettle.visibility + 20
+	StageOfEvolution: "|..........|..........|.........x|..........|"
+	name:             "Power"
 }
